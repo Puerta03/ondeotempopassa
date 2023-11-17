@@ -39,7 +39,15 @@
             font-size: 40px;
             margin-left: 250px;
         }
-       
+
+        #progressBarContainer {
+            width: 300px;
+            height: 25px;
+            margin-top: 50px;
+            background-color: #BD7441;
+            border-radius: 50px;
+        }
+
     </style>
 </head>
 
@@ -48,6 +56,9 @@
     <div class="container">
         <h1 class="titulo">Contagem Regressiva para o Natal</h1>
         <div id="countdown"></div>
+        <div id="progressBarContainer">
+            <div id="progressBar"></div>
+        </div>
     </div>
 
     <script>
@@ -58,22 +69,29 @@
             const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
             const days = Math.floor(total / (1000 * 60 * 60 * 24));
             
+            const progress = ((Date.parse(new Date()) - Date.parse(endtime)) / (Date.parse(new Date()) - Date.parse(new Date(new Date().getFullYear(), 9, 25)))) * 100;
+
             return {
                 total,
                 days,
                 hours,
                 minutes,
-                seconds
+                seconds,
+                progress
             };
         }
 
         function initializeClock(endtime) {
             const countdown = document.getElementById('countdown');
 
+            const progressBar = document.getElementById('progressBar');
+
             function updateClock() {
                 const t = getTimeRemaining(endtime);
 
                 countdown.innerHTML = `${t.days}d ${t.hours}h ${t.minutes}m ${t.seconds}s`;
+                
+                progressBar.style.width = Math.max(100 - t.progress, 0) + '%';
 
                 if (t.total <= 0) {
                     clearInterval(timeinterval);
