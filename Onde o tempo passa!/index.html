@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contagem Regressiva para o Natal</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Concert+One&display=swap');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url(significado-simbolos-do-natal-960x540.png);
+            height: 100%;
+            width: 100%;
+            display: flex;
+            background-size: cover;
+        }
+
+        .titulo {
+            font-family: Agbalumo;
+            font-size: 50px;
+            margin-bottom: 50px;
+        }
+
+        .container {
+            margin-left: 130px;
+            margin-top: 250px;
+        }
+
+        #countdown {
+            font-family: 'Concert One', sans-serif;
+            font-size: 40px;
+            margin-left: 250px;
+        }
+       
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1 class="titulo">Contagem Regressiva para o Natal</h1>
+        <div id="countdown"></div>
+    </div>
+
+    <script>
+        function getTimeRemaining(endtime) {
+            const total = Date.parse(endtime) - Date.parse(new Date());
+            const seconds = Math.floor((total / 1000) % 60);
+            const minutes = Math.floor((total / 1000 / 60) % 60);
+            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(total / (1000 * 60 * 60 * 24));
+            
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
+
+        function initializeClock(endtime) {
+            const countdown = document.getElementById('countdown');
+
+            function updateClock() {
+                const t = getTimeRemaining(endtime);
+
+                countdown.innerHTML = `${t.days}d ${t.hours}h ${t.minutes}m ${t.seconds}s`;
+
+                if (t.total <= 0) {
+                    clearInterval(timeinterval);
+                }
+            }
+
+            updateClock();
+
+            const timeinterval = setInterval(updateClock, 1000);
+        }
+
+        const deadline = new Date("December 25, " + new Date().getFullYear() + " 00:00:00 GMT");
+
+        initializeClock(deadline);
+    </script>
+
+</body>
+</html>
